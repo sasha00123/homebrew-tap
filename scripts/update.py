@@ -40,6 +40,7 @@ def render(repo, release, manifest):
     if source not in published or manifest.get('source_asset') != source:
         raise ValueError('Missing corresponding source archive')
     hashes = {a['architecture']:a['sha256'] for a in assets}
+    dependencies = '  depends_on formula: "git"\n' if repo == 'zed' else ''
     return f'''cask "{cask}" do
   arch arm: "arm64", intel: "x86_64"
 
@@ -53,7 +54,7 @@ def render(repo, release, manifest):
   homepage "https://github.com/sasha00123/{repo}"
 
   depends_on macos: ">= :ventura"
-
+{dependencies}
   app "{app}.app"
 
   caveats <<~EOS

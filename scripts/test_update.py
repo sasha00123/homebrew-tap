@@ -12,6 +12,7 @@ class ManifestValidation(unittest.TestCase):
         text=render('zed',self.release,self.manifest)
         self.assertIn('cask "sasha-edit"',text)
         self.assertIn('arch arm: "arm64", intel: "x86_64"',text)
+        self.assertIn('depends_on formula: "git"',text)
     def test_rejects_upstream_identity(self):
         self.manifest['bundle_id']='dev.zed.Zed'
         with self.assertRaises(ValueError):render('zed',self.release,self.manifest)
