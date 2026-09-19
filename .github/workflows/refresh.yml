@@ -1,0 +1,40 @@
+name: Refresh personal casks
+on:
+  schedule:
+    - cron: '41 6 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+concurrency:
+  group: refresh-personal-casks
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          fetch-depth: 0
+      - name: Generate and validate casks
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          python3 -m unittest discover -s scripts -p 'test_*.py'
+          python3 scripts/update.py
+          git add Casks
+          if git diff --cached --quiet; then exit 0; fi
+          branch="automation/personal-casks-$GITHUB_RUN_ID"
+          git switch -c "$branch"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Update personal app casks'
+          # Leave one reviewable PR at a time; do not force-push an existing one.
+          existing=$(gh pr list --search 'is:open head:automation/personal-casks-' --json number --jq 'length')
+          if [[ "$existing" != 0 ]]; then
+            echo 'An update PR is already open; merge or close it before generating another.'
+            exit 0
+          fi
+          git push origin "$branch"
+          gh pr create --base main --head "$branch" --title 'Update personal macOS builds' --body 'Generated from published personal releases. Both architecture hashes match GitHub asset digests and corresponding source archives are present. Ruby syntax and manifest validation passed before this PR was created.'
