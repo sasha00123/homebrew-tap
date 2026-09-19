@@ -7,8 +7,8 @@ import tempfile
 from pathlib import Path
 
 REPOSITORIES = {
-    'zed': ('sasha-edit', 'SashaEdit', 'io.sasha00123.SashaEdit'),
-    'warp': ('sasha-term', 'SashaTerm', 'io.sasha00123.SashaTerm'),
+    'zed': ('zed-custom', 'Zed Custom', 'io.sasha00123.ZedCustom'),
+    'warp': ('warp-custom', 'Warp Custom', 'io.sasha00123.WarpCustom'),
 }
 
 def render(repo, release, manifest):

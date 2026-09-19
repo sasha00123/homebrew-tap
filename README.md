@@ -1,15 +1,15 @@
 # Sasha's personal macOS builds
 
-Unofficial personal builds of Zed (SashaEdit) and Warp (SashaTerm). Not affiliated with Zed Industries or Warp.
+Unofficial builds of Zed (Zed Custom) and Warp (Warp Custom). Not affiliated with Zed Industries or Warp.
 
 Casks are created only after the first published, verified release. A scheduled/manual workflow reads the public fork releases and opens a PR with exact versions and SHA-256 hashes. It does not publish or merge automatically and needs no cross-repository token.
 
 After a cask appears on `main`:
 
 ```sh
-brew install --cask sasha00123/tap/sasha-edit
-brew install --cask sasha00123/tap/sasha-term
-brew upgrade --cask sasha-edit sasha-term
+brew install --cask sasha00123/tap/zed-custom
+brew install --cask sasha00123/tap/warp-custom
+brew upgrade --cask zed-custom warp-custom
 ```
 
 These apps have separate names, IDs and data directories. They do not update from upstream. Current releases are ad-hoc signed, without Apple Developer ID/notarization. If macOS blocks the first launch, use Privacy & Security → Open Anyway for a build you trust. We do not disable Gatekeeper, remove quarantine automatically, or delete app data on uninstall.
