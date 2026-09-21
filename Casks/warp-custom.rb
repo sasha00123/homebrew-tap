@@ -8,7 +8,7 @@ cask "warp-custom" do
   homepage "https://github.com/sasha00123/warp"
 
   depends_on arch: :arm64
-  depends_on macos: ">= :ventura"
+  depends_on macos: :ventura
 
   app "Warp Custom.app"
 

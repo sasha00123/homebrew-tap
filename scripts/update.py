@@ -51,7 +51,7 @@ def render(repo, release, manifest):
   homepage "https://github.com/sasha00123/{repo}"
 
   depends_on arch: :arm64
-{dependencies}  depends_on macos: ">= :ventura"
+{dependencies}  depends_on macos: :ventura
 
   app "{app}.app"
 
