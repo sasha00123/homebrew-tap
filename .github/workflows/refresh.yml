@@ -37,4 +37,4 @@ jobs:
             exit 0
           fi
           git push origin "$branch"
-          gh pr create --base main --head "$branch" --title 'Update personal macOS builds' --body 'Generated from published personal releases. Both architecture hashes match GitHub asset digests and corresponding source archives are present. Ruby syntax and manifest validation passed before this PR was created.'
+          gh pr create --base main --head "$branch" --title 'Update personal macOS builds' --body 'Generated from published personal releases. The Apple Silicon asset hash matches its GitHub asset digest and corresponding source archives are present. Ruby syntax and manifest validation passed before this PR was created.'

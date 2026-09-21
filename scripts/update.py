@@ -24,8 +24,8 @@ def render(repo, release, manifest):
     if not re.fullmatch(r'[0-9a-f]{40}', manifest.get('commit', '')):
         raise ValueError('Missing source commit')
     assets = manifest.get('assets', [])
-    if len(assets) != 2 or {a['architecture'] for a in assets} != {'arm64', 'x86_64'}:
-        raise ValueError('Both architectures are required')
+    if len(assets) != 1 or {a['architecture'] for a in assets} != {'arm64'}:
+        raise ValueError('Exactly one Apple Silicon asset is required')
     published = {a['name']:a for a in release['assets']}
     for asset in assets:
         name = f'{cask}-{version}-macos-{asset["architecture"]}.zip'
@@ -42,19 +42,17 @@ def render(repo, release, manifest):
     hashes = {a['architecture']:a['sha256'] for a in assets}
     dependencies = '  depends_on formula: "git"\n' if repo == 'zed' else ''
     return f'''cask "{cask}" do
-  arch arm: "arm64", intel: "x86_64"
-
   version "{version}"
-  sha256 arm:   "{hashes['arm64']}",
-         intel: "{hashes['x86_64']}"
+  sha256 "{hashes['arm64']}"
 
-  url "https://github.com/sasha00123/{repo}/releases/download/personal-v#{{version}}/{cask}-#{{version}}-macos-#{{arch}}.zip"
+  url "https://github.com/sasha00123/{repo}/releases/download/personal-v#{{version}}/{cask}-#{{version}}-macos-arm64.zip"
   name "{app}"
   desc "Unofficial personal build of {repo.title()}"
   homepage "https://github.com/sasha00123/{repo}"
 
-  depends_on macos: ">= :ventura"
-{dependencies}
+  depends_on arch: :arm64
+{dependencies}  depends_on macos: ">= :ventura"
+
   app "{app}.app"
 
   caveats <<~EOS
