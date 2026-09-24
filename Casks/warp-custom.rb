@@ -1,6 +1,6 @@
 cask "warp-custom" do
-  version "0.0.11"
-  sha256 "ee42c80467575b2cd4b14f7a6c93dc66707db731700f762148abdd51388b0438"
+  version "0.0.12"
+  sha256 "f06aec40824d2b5ecb7308175106607f2c99f8974f90e71f5534f15c06a48bb2"
 
   url "https://github.com/sasha00123/warp/releases/download/personal-v#{version}/warp-custom-#{version}-macos-arm64.zip"
   name "Warp Custom"
